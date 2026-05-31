@@ -1,3 +1,4 @@
+// Editable redesign refreshed.
 import { slot4BrandConfig } from './brand.config'
 
 export type Slot4VisualPreset =
@@ -62,7 +63,7 @@ export const visualPresets = {
       muted: '#68705a',
       primary: '#415b32',
       accent: '#c47c51',
-      surface: '#fffaf0',
+      surface: '#E7E1B1',
     },
     shape: 'rounded cards, natural spacing, calm texture',
   },

@@ -1,3 +1,4 @@
+// Editable redesign refreshed.
 import type { TaskKey } from "@/lib/site-config";
 
 export const slot4TaskSupport = {

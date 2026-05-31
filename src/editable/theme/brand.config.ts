@@ -1,3 +1,4 @@
+// Editable redesign refreshed.
 import { siteIdentity } from '@/config/site.identity'
 import { getFactoryState } from '@/design/factory/get-factory-state'
 import { getProductKind } from '@/design/factory/get-product-kind'
