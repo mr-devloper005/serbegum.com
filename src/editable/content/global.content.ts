@@ -1,35 +1,36 @@
+// Editable redesign refreshed.
 import { slot4BrandConfig } from '@/editable/theme/brand.config'
 
 export const globalContent = {
   site: {
     name: slot4BrandConfig.siteName,
-    tagline: slot4BrandConfig.tagline || 'Independent reading platform',
+    tagline: slot4BrandConfig.tagline || 'Classifieds and local discovery',
     domain: slot4BrandConfig.domain,
     baseUrl: slot4BrandConfig.baseUrl,
   },
   nav: {
-    tagline: 'Independent reading platform',
+    tagline: 'Classifieds and local discovery',
     primaryLinks: [
-      { label: 'Articles', href: '/articles' },
-      { label: 'Visuals', href: '/image-sharing' },
-      { label: 'Listings', href: '/listings' },
+      { label: 'Classified', href: '/classified' },
+      { label: 'Jobs', href: '/listing' },
+      { label: 'Images', href: '/image' },
       { label: 'Contact', href: '/contact' },
     ],
     actions: {
-      primary: { label: 'Start exploring', href: '/' },
-      secondary: { label: 'Submit', href: '/contact' },
+      primary: { label: 'Post ad', href: '/classified' },
+      secondary: { label: 'Contact', href: '/contact' },
     },
   },
   footer: {
-    tagline: 'Stories, resources, and discoverable posts',
-    description: 'A connected publishing surface for articles, visuals, listings, profiles, bookmarks, and downloadable resources.',
+    tagline: 'Local offers, services, jobs, and community updates',
+    description: 'A local-first public platform where people post offers, discover services, browse jobs, and find practical opportunities nearby.',
     columns: [
       {
         title: 'Explore',
         links: [
-          { label: 'Articles', href: '/articles' },
-          { label: 'Listings', href: '/listings' },
-          { label: 'Images', href: '/image-sharing' },
+          { label: 'Classified', href: '/classified' },
+          { label: 'Listings', href: '/listing' },
+          { label: 'Images', href: '/image' },
           { label: 'PDF Library', href: '/pdf' },
         ],
       },
@@ -38,15 +39,13 @@ export const globalContent = {
         links: [
           { label: 'About', href: '/about' },
           { label: 'Contact', href: '/contact' },
-          { label: 'Privacy', href: '/privacy' },
-          { label: 'Terms', href: '/terms' },
         ],
       },
     ],
-    bottomNote: 'Built for clean discovery and connected publishing.',
+    bottomNote: 'Built for easy local discovery and safer community browsing.',
   },
   commonLabels: {
-    readMore: 'Read more',
+    readMore: 'Open details',
     viewAll: 'View all',
     explore: 'Explore',
     latest: 'Latest',
