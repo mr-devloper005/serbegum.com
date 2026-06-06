@@ -104,3 +104,253 @@ img {
     animation: none;
   }
 }
+
+.editable-auth-page {
+  background:
+    radial-gradient(circle at 8% 12%, rgba(231, 225, 177, 0.75), transparent 30%),
+    rgb(251, 245, 221);
+}
+
+.editable-auth-card {
+  border: 1px solid rgba(13, 83, 14, 0.22);
+  background: rgba(255, 255, 255, 0.72);
+  box-shadow: 0 24px 70px rgba(13, 83, 14, 0.12);
+}
+
+.editable-auth-feature {
+  box-shadow: 0 24px 70px rgba(13, 83, 14, 0.2);
+}
+
+main .editable-auth-heading {
+  max-width: 38rem;
+  color: rgb(251, 245, 221) !important;
+  font-size: clamp(2.5rem, 5vw, 4rem);
+  font-weight: 900;
+  line-height: 0.98;
+  letter-spacing: -0.06em;
+}
+
+main .editable-auth-copy {
+  max-width: 34rem;
+  color: rgba(251, 245, 221, 0.82) !important;
+  font-size: 1rem;
+  line-height: 1.8;
+}
+
+main .editable-auth-badge,
+main .editable-auth-point {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+  color: rgb(251, 245, 221) !important;
+}
+
+main .editable-auth-badge {
+  width: fit-content;
+  border: 1px solid rgba(231, 225, 177, 0.45);
+  border-radius: 999px;
+  background: rgba(231, 225, 177, 0.12);
+  padding: 0.65rem 0.9rem;
+  font-size: 0.72rem;
+  font-weight: 900;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+main .editable-auth-point {
+  border-top: 1px solid rgba(231, 225, 177, 0.28);
+  padding-top: 1rem;
+  font-size: 0.82rem;
+  font-weight: 800;
+}
+
+.editable-auth-orb {
+  position: absolute;
+  border-radius: 999px;
+  background: rgb(231, 225, 177);
+  opacity: 0.13;
+}
+
+.editable-auth-orb-one {
+  right: -5rem;
+  top: -5rem;
+  width: 18rem;
+  height: 18rem;
+}
+
+.editable-auth-orb-two {
+  right: 28%;
+  bottom: -7rem;
+  width: 14rem;
+  height: 14rem;
+}
+
+main .editable-auth-input {
+  border: 1px solid rgba(13, 83, 14, 0.24);
+  background: rgb(251, 245, 221);
+  color: rgb(13, 83, 14) !important;
+}
+
+main .editable-auth-input::placeholder {
+  color: rgba(13, 83, 14, 0.45) !important;
+}
+
+main .editable-auth-input:focus {
+  border-color: rgb(13, 83, 14);
+  background: white;
+  box-shadow: 0 0 0 3px rgba(13, 83, 14, 0.1);
+}
+
+main .editable-auth-submit {
+  background: rgb(13, 83, 14);
+  color: white !important;
+  box-shadow: 0 10px 24px rgba(13, 83, 14, 0.18);
+}
+
+main .editable-auth-switch {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  border-top: 1px solid rgba(13, 83, 14, 0.18);
+  padding-top: 1.25rem;
+  color: rgb(13, 83, 14) !important;
+  font-size: 0.875rem;
+}
+
+.editable-auth-switch:hover strong {
+  text-decoration: underline;
+}
+
+/* Compatibility skin for auth routes that still use the legacy route shell. */
+body:has(main > section a[href="/signup"]) > div > header,
+body:has(main > section a[href="/login"]) > div > header {
+  border-color: rgba(104, 112, 90, 0.2) !important;
+  background: rgba(244, 239, 229, 0.92) !important;
+  box-shadow: none !important;
+  backdrop-filter: blur(40px) !important;
+}
+
+main:has(> section a[href="/signup"]),
+main:has(> section a[href="/login"]) {
+  width: 100%;
+  max-width: none !important;
+  min-height: calc(100vh - 12rem);
+  padding: 4rem max(1rem, calc((100vw - 80rem) / 2)) !important;
+  gap: 1.5rem !important;
+  background:
+    radial-gradient(circle at 8% 12%, rgba(231, 225, 177, 0.75), transparent 30%),
+    rgb(251, 245, 221);
+}
+
+main:has(> section a[href="/signup"]) > section,
+main:has(> section a[href="/login"]) > section {
+  display: flex;
+  min-height: 32rem;
+  flex-direction: column;
+  justify-content: center;
+  border-radius: 2rem;
+  padding: clamp(2rem, 4vw, 3rem) !important;
+}
+
+main:has(> section a[href="/signup"]) > section:first-child,
+main:has(> section a[href="/login"]) > section:last-child {
+  position: relative;
+  overflow: hidden;
+  background: rgb(13, 83, 14) !important;
+  box-shadow: 0 24px 70px rgba(13, 83, 14, 0.2);
+}
+
+main:has(> section a[href="/signup"]) > section:last-child,
+main:has(> section a[href="/login"]) > section:first-child {
+  border: 1px solid rgba(13, 83, 14, 0.22) !important;
+  background: rgba(255, 255, 255, 0.72) !important;
+  box-shadow: 0 24px 70px rgba(13, 83, 14, 0.12) !important;
+  backdrop-filter: none !important;
+}
+
+main:has(> section a[href="/signup"]) > section:first-child::after,
+main:has(> section a[href="/login"]) > section:last-child::after {
+  position: absolute;
+  z-index: 0;
+  right: -5rem;
+  top: -5rem;
+  width: 18rem;
+  height: 18rem;
+  border-radius: 999px;
+  background: rgb(231, 225, 177);
+  content: "";
+  opacity: 0.13;
+}
+
+main:has(> section a[href="/signup"]) > section:first-child > *,
+main:has(> section a[href="/login"]) > section:last-child > * {
+  position: relative;
+  z-index: 1;
+}
+
+main:has(> section a[href="/signup"]) > section:first-child h1,
+main:has(> section a[href="/signup"]) > section:first-child h2,
+main:has(> section a[href="/signup"]) > section:first-child p,
+main:has(> section a[href="/signup"]) > section:first-child a,
+main:has(> section a[href="/login"]) > section:last-child h1,
+main:has(> section a[href="/login"]) > section:last-child h2,
+main:has(> section a[href="/login"]) > section:last-child p,
+main:has(> section a[href="/login"]) > section:last-child a {
+  color: rgb(251, 245, 221) !important;
+}
+
+main:has(> section a[href="/signup"]) h1,
+main:has(> section a[href="/signup"]) h2,
+main:has(> section a[href="/login"]) h1,
+main:has(> section a[href="/login"]) h2 {
+  font-weight: 900 !important;
+  line-height: 0.98 !important;
+  letter-spacing: -0.06em !important;
+}
+
+main:has(> section a[href="/signup"]) form input,
+main:has(> section a[href="/login"]) form input {
+  height: 3.25rem;
+  border: 1px solid rgba(13, 83, 14, 0.24) !important;
+  border-radius: 0.75rem !important;
+  background: rgb(251, 245, 221) !important;
+  color: rgb(13, 83, 14) !important;
+}
+
+main:has(> section a[href="/signup"]) form input::placeholder,
+main:has(> section a[href="/login"]) form input::placeholder {
+  color: rgba(13, 83, 14, 0.48) !important;
+}
+
+main:has(> section a[href="/signup"]) form button,
+main:has(> section a[href="/login"]) form button {
+  height: 3.25rem;
+  border-radius: 0.75rem !important;
+  background: rgb(13, 83, 14) !important;
+  color: white !important;
+  font-weight: 900;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+@media (max-width: 1023px) {
+  main:has(> section a[href="/signup"]),
+  main:has(> section a[href="/login"]) {
+    padding-top: 2.5rem !important;
+    padding-bottom: 2.5rem !important;
+  }
+
+  main:has(> section a[href="/signup"]) > section,
+  main:has(> section a[href="/login"]) > section {
+    min-height: auto;
+  }
+
+  main:has(> section a[href="/login"]) > section:first-child {
+    order: 2;
+  }
+
+  main:has(> section a[href="/login"]) > section:last-child {
+    order: 1;
+  }
+}
