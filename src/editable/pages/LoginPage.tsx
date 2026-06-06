@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
+import { ArrowRight, CheckCircle2, LogIn } from 'lucide-react'
 import { buildPageMetadata } from '@/lib/seo'
 import { EditableSiteShell } from '@/editable/shell/EditableSiteShell'
 import { EditableLocalLoginForm } from '@/editable/components/EditableLocalAuthForms'
@@ -12,17 +13,33 @@ export async function generateMetadata(): Promise<Metadata> {
 export default function LoginPage() {
   return (
     <EditableSiteShell>
-      <main className="bg-[var(--editable-page-bg,#fff7ee)] text-[var(--editable-page-text,#2f1d16)]">
-        <section className="mx-auto grid min-h-[calc(100vh-12rem)] max-w-[var(--editable-container)] items-center gap-10 px-4 py-12 sm:px-6 lg:grid-cols-[1fr_0.9fr] lg:px-8">
-          <div>
-            <p className="text-xs font-black uppercase tracking-[0.28em] opacity-55">{pagesContent.auth.login.badge}</p>
-            <h1 className="mt-5 max-w-xl text-5xl font-black leading-[0.98] tracking-[-0.07em] sm:text-6xl">{pagesContent.auth.login.title}</h1>
-            <p className="mt-6 max-w-lg text-sm leading-8 opacity-70">{pagesContent.auth.login.description}</p>
+      <main className="editable-auth-page">
+        <section className="mx-auto grid min-h-[calc(100vh-12rem)] max-w-7xl items-stretch gap-6 px-4 py-10 sm:px-6 lg:grid-cols-[1.05fr_0.95fr] lg:px-8 lg:py-16">
+          <div className="editable-auth-feature relative flex min-h-[360px] overflow-hidden rounded-[2rem] bg-[rgb(13,83,14)] p-8 sm:p-12">
+            <div className="editable-auth-orb editable-auth-orb-one" />
+            <div className="editable-auth-orb editable-auth-orb-two" />
+            <div className="relative z-10 flex max-w-xl flex-col justify-between">
+              <div>
+                <span className="editable-auth-badge"><LogIn className="h-4 w-4" /> {pagesContent.auth.login.badge}</span>
+                <h1 className="editable-auth-heading mt-7">{pagesContent.auth.login.title}</h1>
+                <p className="editable-auth-copy mt-6">{pagesContent.auth.login.description}</p>
+              </div>
+              <div className="mt-10 grid gap-3 sm:grid-cols-2">
+                <p className="editable-auth-point"><CheckCircle2 className="h-5 w-5" /> Browse local listings</p>
+                <p className="editable-auth-point"><CheckCircle2 className="h-5 w-5" /> Manage your posts</p>
+              </div>
+            </div>
           </div>
-          <div className="rounded-[2rem] border border-[var(--editable-border)] bg-white/80 p-6 shadow-[0_24px_70px_rgba(16,36,31,0.12)] backdrop-blur sm:p-8">
-            <h2 className="text-2xl font-black tracking-[-0.04em]">{pagesContent.auth.login.formTitle}</h2>
+
+          <div className="editable-auth-card flex flex-col justify-center rounded-[2rem] p-6 sm:p-10">
+            <p className="text-xs font-black uppercase tracking-[0.2em] text-[rgb(13,83,14)]">Welcome back</p>
+            <h2 className="mt-3 text-4xl font-black tracking-[-0.05em] text-[rgb(13,83,14)]">{pagesContent.auth.login.formTitle}</h2>
+            <p className="mt-3 text-sm leading-6 text-[rgb(13,83,14)]/75">Enter your account details to continue.</p>
             <EditableLocalLoginForm />
-            <p className="mt-5 text-sm opacity-70">New here? <Link href="/signup" className="font-black underline-offset-4 hover:underline">{pagesContent.auth.login.createCta}</Link></p>
+            <Link href="/signup" className="editable-auth-switch mt-6">
+              <span>New here? <strong>{pagesContent.auth.login.createCta}</strong></span>
+              <ArrowRight className="h-4 w-4" />
+            </Link>
           </div>
         </section>
       </main>
