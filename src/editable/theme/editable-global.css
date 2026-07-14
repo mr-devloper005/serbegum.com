@@ -222,11 +222,6 @@ main .editable-auth-switch {
   text-decoration: underline;
 }
 
-/* Remove the legacy raw-HTML description card on classified detail routes. */
-main:has(> a[href="/classified"]) > section > div:first-child > div:nth-child(2) {
-  display: none;
-}
-
 /* Compatibility skin for auth routes that still use the legacy route shell. */
 body:has(main > section a[href="/signup"]) > div > header,
 body:has(main > section a[href="/login"]) > div > header {
