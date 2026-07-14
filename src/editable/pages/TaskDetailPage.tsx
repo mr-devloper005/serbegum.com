@@ -93,6 +93,27 @@ const formatPlainText = (raw: string) => {
     .join('')
 }
 
+const decodeHtmlEntities = (value: string) => value
+  .replace(/&#(\d+);/g, (_match, code) => String.fromCodePoint(Number(code)))
+  .replace(/&#x([\da-f]+);/gi, (_match, code) => String.fromCodePoint(Number.parseInt(code, 16)))
+  .replace(/&nbsp;/gi, ' ')
+  .replace(/&amp;/gi, '&')
+  .replace(/&lt;/gi, '<')
+  .replace(/&gt;/gi, '>')
+  .replace(/&quot;/gi, '"')
+  .replace(/&apos;|&#39;/gi, "'")
+
+const stripHtml = (value: string) => {
+  let decoded = value
+  for (let pass = 0; pass < 2; pass += 1) decoded = decodeHtmlEntities(decoded)
+  return decoded
+    .replace(/<script[^>]*>[\s\S]*?<\/script>/gi, ' ')
+    .replace(/<style[^>]*>[\s\S]*?<\/style>/gi, ' ')
+    .replace(/<[^>]+>/g, ' ')
+    .replace(/\s+/g, ' ')
+    .trim()
+}
+
 const summaryText = (post: SitePost) => post.summary || asText(getContent(post).description) || asText(getContent(post).excerpt) || ''
 const categoryOf = (post: SitePost, fallback: string) => asText(getContent(post).category) || post.tags?.[0] || fallback
 const mapSrcFor = (post: SitePost) => {
@@ -212,7 +233,7 @@ function ClassifiedDetail({ post, related }: { post: SitePost; related: SitePost
       </aside>
       <article className="rounded-[2.7rem] border border-[var(--editable-border)] bg-white p-6 shadow-[0_30px_90px_rgba(15,23,42,0.08)] sm:p-9">
         <ImageStrip images={images} label="Offer images" large />
-        <BodyContent post={post} />
+        <ClassifiedBodyContent post={post} />
         <ContactAction website={website} phone={phone} email={email} />
         <RelatedPanel task="classified" post={post} related={related} />
       </article>
@@ -319,6 +340,12 @@ function ProfileDetail({ post, related }: { post: SitePost; related: SitePost[] 
 
 function BodyContent({ post, compact = false }: { post: SitePost; compact?: boolean }) {
   return <div className={`article-content mt-8 max-w-none ${compact ? 'text-base leading-8' : 'text-lg leading-9'} opacity-80`} dangerouslySetInnerHTML={{ __html: formatPlainText(getBody(post)) }} />
+}
+
+function ClassifiedBodyContent({ post }: { post: SitePost }) {
+  const body = stripHtml(getBody(post))
+  if (!body) return null
+  return <p className="mt-8 whitespace-pre-line text-lg leading-9 opacity-80">{body}</p>
 }
 
 function InfoGrid({ items }: { items: Array<[string, string, typeof MapPin]> }) {
