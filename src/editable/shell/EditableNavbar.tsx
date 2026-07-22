@@ -5,7 +5,6 @@ import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { Menu, Search, UserPlus, LogIn, X, PlusCircle } from 'lucide-react'
 import { SITE_CONFIG } from '@/lib/site-config'
-import { globalContent } from '@/editable/content/global.content'
 import { getVisualPreset, visualSystem } from '@/editable/theme/visual-system'
 import { useEditableLocalAuthSession } from '@/editable/components/EditableLocalAuthForms'
 

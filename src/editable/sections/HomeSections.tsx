@@ -1,11 +1,9 @@
 import Link from 'next/link'
-import { ArrowRight, Eye, MapPin, Search, Star, Car, Building2, PawPrint, Briefcase, Tv, MonitorPlay, GraduationCap, Plane, Wrench } from 'lucide-react'
+import { Eye, Star, Car, Building2, PawPrint, Briefcase, Tv, MonitorPlay, GraduationCap, Plane, Wrench } from 'lucide-react'
 import type { SitePost } from '@/lib/site-connector'
 import type { HomeTimeSection } from '@/lib/task-data'
 import type { TaskKey } from '@/lib/site-config'
 import { SITE_CONFIG } from '@/lib/site-config'
-import { pagesContent } from '@/editable/content/pages.content'
-import { editableDesignContract as dc } from '@/editable/layouts/design-contract'
 import { getEditableCategory, getEditableExcerpt, getEditablePostImage, postHref } from '@/editable/cards/PostCards'
 
 type HomeSectionProps = {
