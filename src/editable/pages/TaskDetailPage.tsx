@@ -219,27 +219,19 @@ function ClassifiedDetail({ post, related }: { post: SitePost; related: SitePost
   const email = getField(post, ['email'])
   const website = getField(post, ['website', 'url'])
   return (
-    <section className="mx-auto grid max-w-[var(--editable-container)] gap-7 px-4 py-10 sm:px-6 lg:grid-cols-[0.82fr_1.18fr] lg:px-8 lg:py-16">
-      <aside className="rounded-[2.5rem] border border-[var(--editable-border)] bg-[var(--detail-text)] p-7 text-[var(--detail-bg)] shadow-xl lg:sticky lg:top-24 lg:self-start">
+    <section className="mx-auto grid max-w-5xl gap-8 px-4 py-10 sm:px-6 lg:grid-cols-[minmax(0,1fr)_320px] lg:px-8 lg:py-16">
+      <article className="min-w-0 rounded-[2.5rem] border border-[var(--editable-border)] bg-[var(--detail-surface)] p-5 shadow-[0_30px_90px_rgba(15,23,42,0.09)] sm:p-7 lg:p-9">
         <BackLink task="classified" />
-        <p className="mt-10 text-xs font-black uppercase tracking-[0.28em] opacity-60">Classified notice</p>
-        <h1 className="mt-4 text-4xl font-black leading-[0.98] tracking-[-0.07em] sm:text-5xl">{post.title}</h1>
-        <div className="mt-8 grid gap-3">
-          {price ? <BadgeLine label="Price" value={price} /> : null}
-          {condition ? <BadgeLine label="Condition" value={condition} /> : null}
-          {location ? <BadgeLine label="Location" value={location} /> : null}
-        </div>
-        <div className="mt-8 flex flex-wrap gap-3">
-          {phone ? <a href={`tel:${phone}`} className="rounded-full bg-[var(--detail-bg)] px-5 py-3 text-sm font-black text-[var(--detail-text)]">Call now</a> : null}
-          {email ? <a href={`mailto:${email}`} className="rounded-full border border-white/25 px-5 py-3 text-sm font-black">Email</a> : null}
-        </div>
-      </aside>
-      <article className="rounded-[2.7rem] border border-[var(--editable-border)] bg-white p-6 shadow-[0_30px_90px_rgba(15,23,42,0.08)] sm:p-9">
-        <ImageStrip images={images} label="Offer images" large />
-        <ClassifiedBodyContent post={post} />
+        <p className="mt-8 text-xs font-black uppercase tracking-[0.28em] text-[var(--detail-accent)]">{categoryOf(post, 'Classified')}</p>
+        <h1 className="mt-4 text-3xl font-black leading-[1.02] tracking-[-0.06em] sm:text-4xl lg:text-5xl">{post.title}</h1>
+        <p className="mt-5 max-w-3xl text-base leading-8 opacity-70">{stripHtml(summaryText(post))}</p>
+        {images[0] ? <img src={images[0]} alt="" className="mt-8 max-h-[560px] w-full rounded-[2rem] object-cover" /> : null}
+        <InfoGrid items={[['Price', price, Tag], ['Condition', condition, CheckCircle2], ['Location', location, MapPin], ['Phone', phone, Phone], ['Email', email, Mail], ['Website', website, Globe2]]} />
+        <BodyContent post={post} />
+        <ImageStrip images={images.slice(1)} label="More visuals" />
         <ContactAction website={website} phone={phone} email={email} />
-        <RelatedPanel task="classified" post={post} related={related} />
       </article>
+      <RelatedPanel task="classified" post={post} related={related} />
     </section>
   )
 }
@@ -345,12 +337,6 @@ function BodyContent({ post, compact = false }: { post: SitePost; compact?: bool
   return <div className={`article-content mt-8 max-w-none ${compact ? 'text-base leading-8' : 'text-lg leading-9'} opacity-80`} dangerouslySetInnerHTML={{ __html: formatPlainText(getBody(post)) }} />
 }
 
-function ClassifiedBodyContent({ post }: { post: SitePost }) {
-  const body = stripHtml(getBody(post))
-  if (!body) return null
-  return <p className="mt-8 whitespace-pre-line text-lg leading-9 opacity-80">{body}</p>
-}
-
 function InfoGrid({ items }: { items: Array<[string, string, typeof MapPin]> }) {
   const visible = items.filter(([, value]) => value)
   if (!visible.length) return null
@@ -401,10 +387,6 @@ function ContactAction({ website, phone, email }: { website?: string; phone?: st
   )
 }
 
-function BadgeLine({ label, value }: { label: string; value: string }) {
-  return <div className="flex items-center justify-between gap-4 rounded-2xl border border-white/15 bg-white/10 px-4 py-3 text-sm"><span className="font-black uppercase tracking-[0.16em] opacity-60">{label}</span><span className="font-black">{value}</span></div>
-}
-
 function RelatedPanel({ task, post, related, compact = false }: { task: TaskKey; post: SitePost; related: SitePost[]; compact?: boolean }) {
   const taskConfig = getTaskConfig(task)
   return (
@@ -441,7 +423,7 @@ function RelatedCard({ task, post }: { task: TaskKey; post: SitePost }) {
       {image && task !== 'sbm' ? <img src={image} alt="" className="h-20 w-20 shrink-0 rounded-xl object-cover" /> : <div className="flex h-20 w-20 shrink-0 items-center justify-center rounded-xl bg-[var(--detail-bg)]"><FileText className="h-6 w-6 opacity-45" /></div>}
       <div className="min-w-0">
         <h3 className="line-clamp-3 text-sm font-black leading-tight tracking-[-0.03em]">{post.title}</h3>
-        <p className="mt-2 line-clamp-2 text-xs leading-5 opacity-60">{summaryText(post)}</p>
+        <p className="mt-2 line-clamp-2 text-xs leading-5 opacity-60">{stripHtml(summaryText(post))}</p>
       </div>
     </Link>
   )
