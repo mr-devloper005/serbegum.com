@@ -86,13 +86,23 @@ const sanitizeHtml = (html: string) => hardenLinks(html
   .replace(/\s+on\w+=("[^"]*"|'[^']*'|[^\s>]+)/gi, '')
   .replace(/(href|src)=(['"])javascript:[\s\S]*?\2/gi, '$1="#"'))
 
+const hasHyperlink = (fragment: string) => /<a\s[^>]*href=/i.test(fragment)
+
+const keepOnlyLinkedBlocks = (html: string) => {
+  const filtered = html.replace(/<(p|li|h[1-6]|blockquote|div|section|article)([^>]*)>([\s\S]*?)<\/\1>/gi, (match, _tag, _attrs, inner) => (
+    hasHyperlink(inner) ? match : ''
+  ))
+  return hasHyperlink(filtered) ? filtered : ''
+}
+
 const formatPlainText = (raw: string) => {
   const value = raw.trim()
   if (!value) return ''
-  if (/<[a-z][\s\S]*>/i.test(value)) return sanitizeHtml(linkifyMarkdown(value))
+  if (/<[a-z][\s\S]*>/i.test(value)) return keepOnlyLinkedBlocks(sanitizeHtml(linkifyMarkdown(value)))
   return value
     .split(/\n{2,}/)
     .map((part) => `<p>${linkifyText(escapeHtml(part).replace(/\n/g, '<br />'))}</p>`)
+    .filter(hasHyperlink)
     .join('')
 }
 
@@ -118,6 +128,12 @@ const stripHtml = (value: string) => {
 }
 
 const summaryText = (post: SitePost) => post.summary || asText(getContent(post).description) || asText(getContent(post).excerpt) || ''
+const hasLinkableContent = (value: string) => /<a\s[^>]*href=/i.test(value) || /\[[^\]]+]\(https?:\/\/[^\s)]+\)/i.test(value) || /https?:\/\/\S+/i.test(value)
+const summaryHtml = (post: SitePost) => {
+  const raw = summaryText(post)
+  if (!raw || !hasLinkableContent(raw)) return ''
+  return formatPlainText(raw)
+}
 const categoryOf = (post: SitePost, fallback: string) => asText(getContent(post).category) || post.tags?.[0] || fallback
 const mapSrcFor = (post: SitePost) => {
   const address = getField(post, ['address', 'location', 'city'])
@@ -193,7 +209,7 @@ function ListingDetail({ post, related }: { post: SitePost; related: SitePost[] 
             <div>
               <p className="text-xs font-black uppercase tracking-[0.28em] text-[var(--detail-accent)]">Business listing</p>
               <h1 className="mt-3 text-4xl font-black leading-[0.98] tracking-[-0.07em] sm:text-6xl">{post.title}</h1>
-              <p className="mt-5 max-w-3xl text-base leading-8 opacity-70">{summaryText(post)}</p>
+              <SummaryParagraph post={post} className="mt-5 max-w-3xl text-base leading-8 opacity-70" />
             </div>
           </div>
           <InfoGrid items={[['Location', address, MapPin], ['Phone', phone, Phone], ['Email', email, Mail], ['Website', website, Globe2]]} />
@@ -224,12 +240,10 @@ function ClassifiedDetail({ post, related }: { post: SitePost; related: SitePost
         <BackLink task="classified" />
         <p className="mt-8 text-xs font-black uppercase tracking-[0.28em] text-[var(--detail-accent)]">{categoryOf(post, 'Classified')}</p>
         <h1 className="mt-4 text-3xl font-black leading-[1.02] tracking-[-0.06em] sm:text-4xl lg:text-5xl">{post.title}</h1>
-        <p className="mt-5 max-w-3xl text-base leading-8 opacity-70">{stripHtml(summaryText(post))}</p>
         {images[0] ? <img src={images[0]} alt="" className="mt-8 max-h-[560px] w-full rounded-[2rem] object-cover" /> : null}
         <InfoGrid items={[['Price', price, Tag], ['Condition', condition, CheckCircle2], ['Location', location, MapPin], ['Phone', phone, Phone], ['Email', email, Mail], ['Website', website, Globe2]]} />
         <BodyContent post={post} />
         <ImageStrip images={images.slice(1)} label="More visuals" />
-        <ContactAction website={website} phone={phone} email={email} />
       </article>
       <RelatedPanel task="classified" post={post} related={related} />
     </section>
@@ -245,7 +259,7 @@ function ImageDetail({ post, related }: { post: SitePost; related: SitePost[] })
         <aside className="rounded-[2.5rem] border border-[var(--editable-border)] bg-white p-7 lg:sticky lg:top-24 lg:self-start">
           <div className="inline-flex items-center gap-2 rounded-full bg-[var(--detail-text)] px-4 py-2 text-xs font-black uppercase tracking-[0.2em] text-[var(--detail-bg)]"><Camera className="h-4 w-4" /> Image story</div>
           <h1 className="mt-6 text-4xl font-black leading-[0.98] tracking-[-0.07em] sm:text-5xl">{post.title}</h1>
-          <p className="mt-5 text-base leading-8 opacity-70">{summaryText(post)}</p>
+          <SummaryParagraph post={post} className="mt-5 text-base leading-8 opacity-70" />
           <BodyContent post={post} compact />
         </aside>
         <div className="columns-1 gap-5 space-y-5 md:columns-2">
@@ -270,7 +284,7 @@ function BookmarkDetail({ post, related }: { post: SitePost; related: SitePost[]
         <BackLink task="sbm" />
         <div className="mt-10 flex h-20 w-20 items-center justify-center rounded-[2rem] bg-[var(--detail-text)] text-[var(--detail-bg)]"><Bookmark className="h-9 w-9" /></div>
         <h1 className="mt-7 text-4xl font-black leading-[0.98] tracking-[-0.07em] sm:text-6xl">{post.title}</h1>
-        <p className="mt-5 max-w-3xl text-lg leading-9 opacity-70">{summaryText(post)}</p>
+        <SummaryParagraph post={post} className="mt-5 max-w-3xl text-lg leading-9 opacity-70" />
         {website ? <Link href={website} target="_blank" rel="noreferrer" className="mt-8 inline-flex items-center gap-2 rounded-full bg-[var(--detail-text)] px-5 py-3 text-sm font-black text-[var(--detail-bg)]">Open saved resource <ExternalLink className="h-4 w-4" /></Link> : null}
         <BodyContent post={post} />
       </article>
@@ -334,7 +348,15 @@ function ProfileDetail({ post, related }: { post: SitePost; related: SitePost[] 
 }
 
 function BodyContent({ post, compact = false }: { post: SitePost; compact?: boolean }) {
-  return <div className={`article-content mt-8 max-w-none ${compact ? 'text-base leading-8' : 'text-lg leading-9'} opacity-80`} dangerouslySetInnerHTML={{ __html: formatPlainText(getBody(post)) }} />
+  const html = formatPlainText(getBody(post))
+  if (!html) return null
+  return <div className={`article-content mt-8 max-w-none ${compact ? 'text-base leading-8' : 'text-lg leading-9'} opacity-80`} dangerouslySetInnerHTML={{ __html: html }} />
+}
+
+function SummaryParagraph({ post, className }: { post: SitePost; className: string }) {
+  const html = summaryHtml(post)
+  if (!html) return null
+  return <div className={className} dangerouslySetInnerHTML={{ __html: html }} />
 }
 
 function InfoGrid({ items }: { items: Array<[string, string, typeof MapPin]> }) {
